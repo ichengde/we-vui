@@ -1,21 +1,20 @@
 export default {
-  mounted () {
+  mounted() {
     // fix for ssr
     if (typeof V_SSR === 'undefined') {
       if (process.env.NODE_ENV === 'development') {
-        console.warn('[we-vui] dev mode')
       }
     } else if (typeof V_SSR !== 'undefined' && V_SSR) { // eslint-disable-line
       this.uuid = createId()
     }
   },
-  data () {
+  data() {
     return {
       uuid: createId()
     }
   }
 }
 
-function createId () {
+function createId() {
   return Math.random().toString(36).substring(3, 8)
 }
