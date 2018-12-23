@@ -1,6 +1,6 @@
 {
   "name": "we-vui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "chegde",
     "email": "chegde@foxmail.com"
@@ -24,6 +24,7 @@
     "array-map": "^0.0.0",
     "array-shuffle": "^1.0.1",
     "validator": "^10.10.0",
+    "vanilla-masker": "^1.2.0",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
