@@ -1,39 +1,22 @@
-# veui
+# VeUI
+## 项目目标
+- 旨在将UI组件归于UI职责
+- 针对vue-cli 3.0的兼容
 
-## Project setup
-```
-yarn install
-```
+## 组件
+- XDialog
+- Popup
+- Checklist
+- Actionsheet
+- Datetime
+- PopupPicker
+- Cell
+- Group
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## 插件
+- AlertPlugin
+- ConfirmPlugin
+- TransferDom
+- LoadingPlugin
+- ToastPlugin
 
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your end-to-end tests
-```
-yarn run test:e2e
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

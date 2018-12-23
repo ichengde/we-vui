@@ -1,6 +1,16 @@
 {
-  "name": "veui",
-  "version": "0.1.0",
+  "name": "we-vui",
+  "version": "0.0.1",
+  "author": {
+    "name": "chegde",
+    "email": "chegde@foxmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ichengde/we-vui.git"
+  },
+  "description": "对vux进行简化，并兼容vue-cli 3.0",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,6 +20,9 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "array-find": "^1.0.0",
+    "array-map": "^0.0.0",
+    "array-shuffle": "^1.0.1",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
