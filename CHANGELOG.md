@@ -6,3 +6,5 @@
 修复x-input组件的依赖缺失 validator
 ### 0.0.3
 修复x-input组件的依赖缺失 vanilla-masker
+### 0.0.4
+修复'../inline-x-switch/style.less' 样式缺失
