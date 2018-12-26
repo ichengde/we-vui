@@ -62,6 +62,7 @@
       >
         <div class="vux-popup-picker-container">
           <popup-header
+            :id="id"
             :left-text="cancelText"
             :right-text="confirmText"
             @on-click-left="onHide(false)"
@@ -125,6 +126,7 @@ export default {
     value2name
   },
   props: {
+    id: String,
     valueTextAlign: {
       type: String,
       default: "right"

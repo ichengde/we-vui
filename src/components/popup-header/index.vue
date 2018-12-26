@@ -1,12 +1,22 @@
 <template>
-  <div class="vux-popup-header" :class="showBottomBorder ? 'vux-1px-b' : ''">
-    <div class="vux-popup-header-left" @click="$emit('on-click-left')">
+  <div
+    class="vux-popup-header"
+    :class="showBottomBorder ? 'vux-1px-b' : ''"
+  >
+    <div
+      class="vux-popup-header-left"
+      @click="$emit('on-click-left')"
+    >
       <slot name="left-text">{{ leftText }}</slot>
     </div>
     <div class="vux-popup-header-title">
       <slot name="title">{{ title }}</slot>
     </div>
-    <div class="vux-popup-header-right" @click="$emit('on-click-right')">
+    <div
+      :id="`${id}-finish`"
+      class="vux-popup-header-right"
+      @click="$emit('on-click-right')"
+    >
       <slot name="right-text">{{ rightText }}</slot>
     </div>
   </div>
@@ -14,8 +24,9 @@
 
 <script>
 export default {
-  name: 'popup-header',
+  name: "popup-header",
   props: {
+    id: String,
     leftText: String,
     rightText: String,
     title: String,
@@ -24,12 +35,12 @@ export default {
       default: true
     }
   }
-}
+};
 </script>
 
 <style lang="less">
-@import '../../styles/1px.less';
-@import '../../styles/variable.less';
+@import "../../styles/1px.less";
+@import "../../styles/variable.less";
 
 .vux-popup-header {
   display: flex;
@@ -52,6 +63,6 @@ export default {
   color: @popup-header-right-text-color;
 }
 .vux-popup-header.vux-1px-b:after {
-  border-color: #D9D9D9;
+  border-color: #d9d9d9;
 }
 </style>

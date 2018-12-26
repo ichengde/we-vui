@@ -12,3 +12,5 @@
 删除vux-loader相关提示
 ### 0.0.6
 删除development时的warn警告
+### 0.0.7
+popup-picker 增加完成id赋值 用于测试
