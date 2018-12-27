@@ -14,3 +14,5 @@
 删除development时的warn警告
 ### 0.0.7
 popup-picker 增加完成id赋值 用于测试
+### 0.0.8
+popup-picker 增加了 column label 用于显示表单名

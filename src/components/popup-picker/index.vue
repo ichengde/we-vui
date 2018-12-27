@@ -7,12 +7,7 @@
       v-show="showCell"
     >
       <div class="weui-cell__hd">
-        <slot
-          name="title"
-          label-class="weui-label"
-          :label-style="labelStyles"
-          :label-title="title"
-        >
+        <slot name="title" label-class="weui-label" :label-style="labelStyles" :label-title="title">
           <label
             class="weui-label"
             :class="labelClass"
@@ -24,10 +19,7 @@
         <inline-desc v-if="inlineDesc">{{ inlineDesc }}</inline-desc>
       </div>
       <div class="vux-cell-primary vux-popup-picker-select-box">
-        <div
-          class="vux-popup-picker-select"
-          :style="{textAlign: valueTextAlign}"
-        >
+        <div class="vux-popup-picker-select" :style="{textAlign: valueTextAlign}">
           <span
             class="vux-popup-picker-value vux-cell-value"
             v-if="!displayFormat && !showName && value.length"
@@ -47,8 +39,7 @@
           ></span>
         </div>
       </div>
-      <div class="weui-cell__ft">
-      </div>
+      <div class="weui-cell__ft"></div>
     </div>
 
     <div v-transfer-dom="isTransferDom">
@@ -74,6 +65,7 @@
             v-model="tempValue"
             @on-change="onPickerChange"
             :columns="columns"
+            :columnLabel="columnLabel"
             :fixed-columns="fixedColumns"
             :container="'#vux-popup-picker-'+uuid"
             :column-width="columnWidth"
@@ -81,7 +73,6 @@
         </div>
       </popup>
     </div>
-
   </div>
 </template>
 
@@ -170,7 +161,11 @@ export default {
     columnWidth: Array,
     popupStyle: Object,
     popupTitle: String,
-    disabled: Boolean
+    disabled: Boolean,
+    columnLabel: {
+      type: Array,
+      require: false
+    }
   },
   computed: {
     labelStyles() {

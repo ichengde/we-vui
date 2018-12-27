@@ -1,7 +1,17 @@
 <template>
   <div class="vux-picker">
     <flexbox :gutter="0">
-      <flexbox-item :span="columnWidth && columnWidth[index]" v-for="(one, index) in currentData" :key="index" style="margin-left:0;">
+      <flexbox-item
+        :span="columnWidth && columnWidth[index]"
+        v-for="(one, index) in currentData"
+        :key="index"
+        style="margin-left:0;"
+      >
+        <div
+          class="vux-picker-item-label"
+          v-if="columnLabel !== undefined && columnLabel.length === value.length"
+        >{{columnLabel[index]}}</div>
+
         <div class="vux-picker-item" :id="`vux-picker-${uuid}-${index}`"></div>
       </flexbox-item>
     </flexbox>
@@ -9,30 +19,36 @@
 </template>
 
 <script>
-import Scroller from './scroller'
-import { Flexbox, FlexboxItem } from '../flexbox'
-import Manager from './chain'
-import value2name from '../../filters/value2name'
-import isArray from '../../libs/is-array'
+import Scroller from "./scroller";
+import { Flexbox, FlexboxItem } from "../flexbox";
+import Manager from "./chain";
+import value2name from "../../filters/value2name";
+import isArray from "../../libs/is-array";
 
 export default {
-  name: 'picker',
+  name: "picker",
   components: {
     Flexbox,
     FlexboxItem
   },
-  created () {
+  created() {
     if (this.columns !== 0) {
-      const length = this.columns
-      this.store = new Manager(this.data, length, this.fixedColumns || this.columns)
-      this.currentData = this.store.getColumns(this.value)
+      const length = this.columns;
+      this.store = new Manager(
+        this.data,
+        length,
+        this.fixedColumns || this.columns
+      );
+      this.currentData = this.store.getColumns(this.value);
     }
   },
-  mounted () {
-    this.uuid = Math.random().toString(36).substring(3, 8)
+  mounted() {
+    this.uuid = Math.random()
+      .toString(36)
+      .substring(3, 8);
     this.$nextTick(() => {
-      this.render(this.currentData, this.currentValue)
-    })
+      this.render(this.currentData, this.currentValue);
+    });
   },
   props: {
     data: Array,
@@ -47,201 +63,233 @@ export default {
     value: Array,
     itemClass: {
       type: String,
-      default: 'scroller-item'
+      default: "scroller-item"
     },
-    columnWidth: Array
+    columnWidth: Array,
+    columnLabel: {
+      type: Array,
+      require: false
+    }
   },
   methods: {
-    getNameValues () {
-      return value2name(this.currentValue, this.data)
+    getNameValues() {
+      return value2name(this.currentValue, this.data);
     },
-    getId (i) {
-      return `#vux-picker-${this.uuid}-${i}`
+    getId(i) {
+      return `#vux-picker-${this.uuid}-${i}`;
     },
-    render (data, value) {
-      this.count = this.currentData.length
-      const _this = this
+    render(data, value) {
+      this.count = this.currentData.length;
+      const _this = this;
       if (!data || !data.length) {
-        return
+        return;
       }
-      let count = this.currentData.length
+      let count = this.currentData.length;
       // set first item as value
       if (value.length < count) {
         for (let i = 0; i < count; i++) {
-          if (process.env.NODE_ENV === 'development' &&
-            typeof data[i][0] === 'undefined' &&
+          if (
+            process.env.NODE_ENV === "development" &&
+            typeof data[i][0] === "undefined" &&
             isArray(this.data) &&
             this.data[0] &&
-            typeof this.data[0].value !== 'undefined' &&
-            !this.columns) {
-            console.error('[VUX error] 渲染出错，如果为联动模式，需要指定 columns(列数)')
+            typeof this.data[0].value !== "undefined" &&
+            !this.columns
+          ) {
+            console.error(
+              "[VUX error] 渲染出错，如果为联动模式，需要指定 columns(列数)"
+            );
           }
-          this.$set(_this.currentValue, i, data[i][0].value || data[i][0])
+          this.$set(_this.currentValue, i, data[i][0].value || data[i][0]);
         }
       }
 
       for (let i = 0; i < data.length; i++) {
         /**
-        * Still don't know why this happens
-        */
+         * Still don't know why this happens
+         */
         if (!document.querySelector(_this.getId(i))) {
-          return
+          return;
         }
 
-        _this.scroller[i] && _this.scroller[i].destroy()
+        _this.scroller[i] && _this.scroller[i].destroy();
         _this.scroller[i] = new Scroller(_this.getId(i), {
           data: data[i],
           defaultValue: value[i] || data[i][0].value,
           itemClass: _this.itemClass,
-          onSelect (value) {
-            _this.$set(_this.currentValue, i, value)
-            if (!this.columns || (this.columns && _this.getValue().length === _this.store.count)) {
+          onSelect(value) {
+            _this.$set(_this.currentValue, i, value);
+            if (
+              !this.columns ||
+              (this.columns && _this.getValue().length === _this.store.count)
+            ) {
               _this.$nextTick(() => {
-                _this.$emit('on-change', _this.getValue())
-              })
+                _this.$emit("on-change", _this.getValue());
+              });
             }
             if (_this.columns !== 0) {
-              _this.renderChain(i + 1)
+              _this.renderChain(i + 1);
             }
           }
-        })
+        });
         if (_this.currentValue) {
-          _this.scroller[i].select(value[i])
+          _this.scroller[i].select(value[i]);
         }
       }
     },
-    renderChain (i) {
+    renderChain(i) {
       if (!this.columns) {
-        return
+        return;
       }
 
       // do not render for last scroller
       if (i > this.count - 1) {
-        return
+        return;
       }
 
-      const _this = this
-      let ID = this.getId(i)
+      const _this = this;
+      let ID = this.getId(i);
       // destroy old one
-      this.scroller[i].destroy()
-      let list = this.store.getChildren(_this.getValue()[i - 1])
+      this.scroller[i].destroy();
+      let list = this.store.getChildren(_this.getValue()[i - 1]);
       this.scroller[i] = new Scroller(ID, {
         data: list,
         itemClass: _this.item_class,
-        onSelect (value) {
-          _this.$set(_this.currentValue, i, value)
+        onSelect(value) {
+          _this.$set(_this.currentValue, i, value);
           _this.$nextTick(() => {
-            _this.$emit('on-change', _this.getValue())
-          })
-          _this.renderChain(i + 1)
+            _this.$emit("on-change", _this.getValue());
+          });
+          _this.renderChain(i + 1);
         }
-      })
+      });
       // list is Array(empty) as maybe
       if (list.length) {
-        this.$set(this.currentValue, i, list[0].value)
-        this.renderChain(i + 1)
+        this.$set(this.currentValue, i, list[0].value);
+        this.renderChain(i + 1);
       } else {
-        this.$set(this.currentValue, i, null)
+        this.$set(this.currentValue, i, null);
       }
     },
-    getValue () {
-      let data = []
+    getValue() {
+      let data = [];
       for (let i = 0; i < this.currentData.length; i++) {
         if (this.scroller[i]) {
-          data.push(this.scroller[i].value)
+          data.push(this.scroller[i].value);
         } else {
-          return []
+          return [];
         }
       }
-      return data
+      return data;
     },
-    emitValueChange (val) {
+    emitValueChange(val) {
       if (!this.columns || (this.columns && val.length === this.store.count)) {
-        this.$emit('on-change', val)
+        this.$emit("on-change", val);
       }
     }
   },
-  data () {
+  data() {
     return {
       scroller: [],
       count: 0,
-      uuid: '',
+      uuid: "",
       currentData: this.data,
       currentValue: this.value
-    }
+    };
   },
   watch: {
-    value (val) {
+    value(val) {
       if (JSON.stringify(val) !== JSON.stringify(this.currentValue)) {
-        this.currentValue = val
+        this.currentValue = val;
       }
     },
-    currentValue (val, oldVal) {
-      this.$emit('input', val)
+    currentValue(val, oldVal) {
+      this.$emit("input", val);
       // render all the scroller for chain datas
       if (this.columns !== 0) {
         if (val.length > 0) {
           if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
-            this.currentData = this.store.getColumns(val)
-            this.$nextTick(function () {
-              this.render(this.currentData, val)
-            })
+            this.currentData = this.store.getColumns(val);
+            this.$nextTick(function() {
+              this.render(this.currentData, val);
+            });
           }
         }
       } else {
         if (val.length) {
           for (let i = 0; i < val.length; i++) {
             if (this.scroller[i] && this.scroller[i].value !== val[i]) {
-              this.scroller[i].select(val[i])
+              this.scroller[i].select(val[i]);
             }
           }
         } else {
-          this.render(this.currentData, [])
+          this.render(this.currentData, []);
         }
       }
     },
-    data (val) {
+    data(val) {
       if (JSON.stringify(val) !== JSON.stringify(this.currentData)) {
-        this.currentData = val
+        this.currentData = val;
       }
     },
-    currentData (newData) {
-      if (Object.prototype.toString.call(newData[0]) === '[object Array]') {
+    currentData(newData) {
+      if (Object.prototype.toString.call(newData[0]) === "[object Array]") {
         this.$nextTick(() => {
-          this.render(newData, this.currentValue)
+          this.render(newData, this.currentValue);
           // emit on-change after rerender
           this.$nextTick(() => {
-            this.emitValueChange(this.getValue())
+            this.emitValueChange(this.getValue());
 
-            if (JSON.stringify(this.getValue()) !== JSON.stringify(this.currentValue)) {
-              if (!this.columns || (this.columns && this.getValue().length === this.store.count)) {
-                this.currentValue = this.getValue()
+            if (
+              JSON.stringify(this.getValue()) !==
+              JSON.stringify(this.currentValue)
+            ) {
+              if (
+                !this.columns ||
+                (this.columns && this.getValue().length === this.store.count)
+              ) {
+                this.currentValue = this.getValue();
               }
             }
-          })
-        })
+          });
+        });
       } else {
         if (this.columns !== 0) {
           if (!newData.length) {
-            return
+            return;
           }
-          const length = this.columns
-          this.store = new Manager(newData, length, this.fixedColumns || this.columns)
-          this.currentData = this.store.getColumns(this.currentValue)
+          const length = this.columns;
+          this.store = new Manager(
+            newData,
+            length,
+            this.fixedColumns || this.columns
+          );
+          this.currentData = this.store.getColumns(this.currentValue);
         }
       }
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     for (let i = 0; i < this.count; i++) {
-      this.scroller[i] && this.scroller[i].destroy()
-      this.scroller[i] = null
+      this.scroller[i] && this.scroller[i].destroy();
+      this.scroller[i] = null;
     }
   }
-}
+};
 </script>
 
 <style>
-@import './scroller.css';
+@import "./scroller.css";
 </style>
+<style lang="less" scoped>
+.vux-picker-item-label {
+  align-items: center;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  padding: 0.1rem;
+}
+</style>
+
 
