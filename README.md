@@ -1,4 +1,5 @@
-# VeUI
+# We-VUI
+
 ## 项目目标
 - 旨在将UI组件归于UI职责
 - 针对vue-cli 3.0的兼容
@@ -20,3 +21,4 @@
 - LoadingPlugin
 - ToastPlugin
 
+## [文档](https://doc.vux.li/zh-CN/)
