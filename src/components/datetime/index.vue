@@ -9,11 +9,7 @@
     <slot>
       <div>
         <slot name="title">
-          <p
-            :style="styles"
-            :class="labelClass"
-            v-html="title"
-          ></p>
+          <p :style="styles" :class="labelClass" v-html="title"></p>
         </slot>
         <inline-desc v-if="inlineDesc">{{ inlineDesc }}</inline-desc>
       </div>
@@ -23,133 +19,126 @@
           textAlign: valueTextAlign
         }"
       >
-        <span
-          class="vux-cell-placeholder"
-          v-if="!currentValue && placeholder"
-        >{{ placeholder }}</span>
+        <span class="vux-cell-placeholder" v-if="!currentValue && placeholder">{{ placeholder }}</span>
         <span
           class="vux-cell-value"
           v-if="currentValue"
         >{{ displayFormat ? displayFormat(currentValue) : currentValue }}</span>
-        <icon
-          class="vux-input-icon"
-          type="warn"
-          v-show="!valid"
-          :title="firstError"
-        ></icon>
+        <icon class="vux-input-icon" type="warn" v-show="!valid" :title="firstError"></icon>
       </div>
     </slot>
   </a>
 </template>
 
 <script>
-import Icon from "../icon";
-import Picker from "./datetimepicker";
-import Group from "../group";
-import InlineDesc from "../inline-desc";
-import Uuid from "../../mixins/uuid";
-import format from "../../tools/date/format";
+import Icon from '../icon';
+import Picker from './datetimepicker';
+import Group from '../group';
+import InlineDesc from '../inline-desc';
+import Uuid from '../../mixins/uuid';
+import format from '../../tools/date/format';
 
 export default {
-  name: "datetime",
+  name: 'datetime',
   mixins: [Uuid],
   components: {
     Group,
     InlineDesc,
-    Icon
+    Icon,
   },
   props: {
     format: {
       type: String,
-      default: "YYYY-MM-DD",
+      default: 'YYYY-MM-DD',
       validator(val) {
         /* istanbul ignore if */
         if (
-          process.env.NODE_ENV === "development" &&
+          process.env.NODE_ENV === 'development' &&
           val &&
           /A/.test(val) &&
-          val !== "YYYY-MM-DD A"
+          val !== 'YYYY-MM-DD A'
         ) {
           return console.error(
-            "[VUX] Datetime prop:format 使用 A 时只允许的值为： YYYY-MM-DD A"
+            '[VUX] Datetime prop:format 使用 A 时只允许的值为： YYYY-MM-DD A'
           );
         }
         return true;
-      }
+      },
     },
     title: String,
+    testId: String,
     value: {
       type: String,
-      default: ""
+      default: '',
     },
     inlineDesc: String,
     placeholder: String,
     minYear: Number,
     maxYear: Number,
-    confirmText: { type: String, default: "确定" },
-    cancelText: { type: String, default: "取消" },
+    confirmText: { type: String, default: '确定' },
+    cancelText: { type: String, default: '取消' },
     clearText: String,
     yearRow: {
       type: String,
-      default: "{value}"
+      default: '{value}',
     },
     monthRow: {
       type: String,
-      default: "{value}"
+      default: '{value}',
     },
     dayRow: {
       type: String,
-      default: "{value}"
+      default: '{value}',
     },
     hourRow: {
       type: String,
-      default: "{value}"
+      default: '{value}',
     },
     minuteRow: {
       type: String,
-      default: "{value}"
+      default: '{value}',
     },
     required: {
       type: Boolean,
-      default: false
+      default: false,
     },
     minHour: {
       type: Number,
-      default: 0
+      default: 0,
     },
     maxHour: {
       type: Number,
-      default: 23
+      default: 23,
     },
     startDate: {
       type: String,
       validator(val) {
         /* istanbul ignore if */
         if (
-          process.env.NODE_ENV === "development" &&
+          process.env.NODE_ENV === 'development' &&
           val &&
           val.length !== 10
         ) {
           console.error(
-            "[VUX] Datetime prop:start-date 必须为 YYYY-MM-DD 格式"
+            '[VUX] Datetime prop:start-date 必须为 YYYY-MM-DD 格式'
           );
         }
         return val ? val.length === 10 : true;
-      }
+      },
     },
     endDate: {
       type: String,
       validator(val) {
         /* istanbul ignore if */
         if (
-          process.env.NODE_ENV === "development" &&
+          process.env.NODE_ENV === 'development' &&
           val &&
           val.length !== 10
         ) {
-          console.error("[VUX] Datetime prop:end-date 必须为 YYYY-MM-DD 格式");
+          console.error('[VUX] Datetime prop:end-date 必须为 YYYY-MM-DD 格式');
         }
         return val ? val.length === 10 : true;
-      }
+      },
     },
     valueTextAlign: String,
     displayFormat: Function,
@@ -160,7 +149,7 @@ export default {
     defaultSelectedValue: String,
     computeHoursFunction: Function,
     computeDaysFunction: Function,
-    orderMap: Object
+    orderMap: Object,
   },
   created() {
     this.isFirstSetValue = false;
@@ -171,12 +160,15 @@ export default {
       currentShow: false,
       currentValue: null,
       valid: true,
-      errors: {}
+      errors: {},
     };
   },
   mounted() {
     const uuid = this.uuid;
-    this.$el.setAttribute("id", `vux-datetime-${uuid}`);
+    this.$el.setAttribute('id', `vux-datetime-${uuid}`);
+
+    this.$el.setAttribute('data-test', `datetime-${this.testId}`);
+
     if (!this.readonly) {
       this.$nextTick(() => {
         this.render();
@@ -197,18 +189,19 @@ export default {
       return {
         width: this.$parent.labelWidth,
         textAlign: this.$parent.labelAlign,
-        marginRight: this.$parent.labelMarginRight
+        marginRight: this.$parent.labelMarginRight,
       };
     },
     pickerOptions() {
       const _this = this;
       const options = {
-        trigger: "#vux-datetime-" + this.uuid,
+        trigger: '#vux-datetime-' + this.uuid,
+        testId: this.testId,
         format: this.format,
         value: this.currentValue,
-        output: ".vux-datetime-value",
-        confirmText: _this.getButtonText("confirm"),
-        cancelText: _this.getButtonText("cancel"),
+        output: '.vux-datetime-value',
+        confirmText: _this.getButtonText('confirm'),
+        cancelText: _this.getButtonText('cancel'),
         clearText: _this.clearText,
         yearRow: this.yearRow,
         monthRow: this.monthRow,
@@ -227,37 +220,37 @@ export default {
         orderMap: this.orderMap || {},
         onSelect(type, val, wholeValue) {
           if (_this.picker && _this.picker.config.renderInline) {
-            _this.$emit("input", wholeValue);
-            _this.$emit("on-change", wholeValue);
+            _this.$emit('input', wholeValue);
+            _this.$emit('on-change', wholeValue);
           }
         },
         onConfirm(value) {
           _this.currentValue = value;
         },
         onClear(value) {
-          _this.$emit("on-clear", value);
+          _this.$emit('on-clear', value);
         },
         onHide(type) {
           _this.currentShow = false;
-          _this.$emit("update:show", false);
+          _this.$emit('update:show', false);
           _this.validate();
-          _this.$emit("on-hide", type);
-          if (type === "cancel") {
-            _this.$emit("on-cancel");
+          _this.$emit('on-hide', type);
+          if (type === 'cancel') {
+            _this.$emit('on-cancel');
           }
-          if (type === "confirm") {
+          if (type === 'confirm') {
             setTimeout(() => {
               _this.$nextTick(() => {
-                _this.$emit("on-confirm", _this.value);
+                _this.$emit('on-confirm', _this.value);
               });
             });
           }
         },
         onShow() {
           _this.currentShow = true;
-          _this.$emit("update:show", true);
-          _this.$emit("on-show");
-        }
+          _this.$emit('update:show', true);
+          _this.$emit('on-show');
+        },
       };
       if (this.minYear) {
         options.minYear = this.minYear;
@@ -276,17 +269,17 @@ export default {
         return {};
       }
       return {
-        "vux-cell-justify":
-          this.$parent.labelAlign === "justify" ||
-          this.$parent.$parent.labelAlign === "justify"
+        'vux-cell-justify':
+          this.$parent.labelAlign === 'justify' ||
+          this.$parent.$parent.labelAlign === 'justify',
       };
-    }
+    },
   },
   methods: {
     getButtonText(type) {
-      if (type === "cancel" && this.cancelText) {
+      if (type === 'cancel' && this.cancelText) {
         return this.cancelText;
-      } else if (type === "confirm" && this.confirmText) {
+      } else if (type === 'confirm' && this.confirmText) {
         return this.confirmText;
       }
       return this.$el.getAttribute(`data-${type}-text`);
@@ -300,12 +293,12 @@ export default {
     validate() {
       if (!this.currentValue && this.required) {
         this.valid = false;
-        this.errors.required = "必填";
+        this.errors.required = '必填';
         return;
       }
       this.valid = true;
       this.errors = {};
-    }
+    },
   },
   watch: {
     readonly(val) {
@@ -324,12 +317,12 @@ export default {
       }
     },
     currentValue(val, oldVal) {
-      this.$emit("input", val);
+      this.$emit('input', val);
       if (!this.isFirstSetValue) {
         this.isFirstSetValue = true;
-        oldVal && this.$emit("on-change", val);
+        oldVal && this.$emit('on-change', val);
       } else {
-        this.$emit("on-change", val);
+        this.$emit('on-change', val);
       }
       this.validate();
     },
@@ -355,14 +348,14 @@ export default {
         this.currentValue = val;
         this.render();
       }
-    }
+    },
   },
   beforeDestroy() {
     this.picker && this.picker.destroy();
-  }
+  },
 };
 </script>
 
 <style lang="less">
-@import "./style.less";
+@import './style.less';
 </style>

@@ -16,3 +16,5 @@
 popup-picker 增加完成id赋值 用于测试
 ### 0.0.8
 popup-picker 增加了 column label 用于显示表单名
+### 0.0.9
+date-time 增加data-test选择器 命名为 data-test=datetime-${formName}
