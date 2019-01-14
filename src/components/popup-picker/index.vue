@@ -42,7 +42,7 @@
       <div class="weui-cell__ft"></div>
     </div>
 
-    <div v-transfer-dom="isTransferDom">
+    <div v-transfer-dom="isTransferDom" :data-test="`${id}-popup-picker`">
       <popup
         v-model="showValue"
         class="vux-popup-picker"
@@ -77,28 +77,28 @@
 </template>
 
 <script>
-import Picker from "../picker";
-import Cell from "../cell";
-import Popup from "../popup";
-import PopupHeader from "../popup-header";
-import InlineDesc from "../inline-desc";
-import { Flexbox, FlexboxItem } from "../flexbox";
-import array2string from "../../filters/array2String";
-import value2name from "../../filters/value2name";
-import uuidMixin from "../../libs/mixin_uuid";
-import TransferDom from "../../directives/transfer-dom";
+import Picker from '../picker';
+import Cell from '../cell';
+import Popup from '../popup';
+import PopupHeader from '../popup-header';
+import InlineDesc from '../inline-desc';
+import { Flexbox, FlexboxItem } from '../flexbox';
+import array2string from '../../filters/array2String';
+import value2name from '../../filters/value2name';
+import uuidMixin from '../../libs/mixin_uuid';
+import TransferDom from '../../directives/transfer-dom';
 
 const getObject = function(obj) {
   return JSON.parse(JSON.stringify(obj));
 };
 
 export default {
-  name: "popup-picker",
+  name: 'popup-picker',
   directives: {
-    TransferDom
+    TransferDom,
   },
   created() {
-    if (typeof this.show !== "undefined") {
+    if (typeof this.show !== 'undefined') {
       this.showValue = this.show;
     }
   },
@@ -110,53 +110,53 @@ export default {
     PopupHeader,
     Flexbox,
     FlexboxItem,
-    InlineDesc
+    InlineDesc,
   },
   filters: {
     array2string,
-    value2name
+    value2name,
   },
   props: {
     id: String,
     valueTextAlign: {
       type: String,
-      default: "right"
+      default: 'right',
     },
     title: String,
-    cancelText: { type: String, default: "取消" },
-    confirmText: { type: String, default: "完成" },
+    cancelText: { type: String, default: '取消' },
+    confirmText: { type: String, default: '完成' },
     data: {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     placeholder: String,
     columns: {
       type: Number,
-      default: 0
+      default: 0,
     },
     fixedColumns: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     showName: Boolean,
     inlineDesc: [String, Number, Array, Object, Boolean],
     showCell: {
       type: Boolean,
-      default: true
+      default: true,
     },
     show: Boolean,
     displayFormat: Function,
     isTransferDom: {
       type: Boolean,
-      default: true
+      default: true,
     },
     columnWidth: Array,
     popupStyle: Object,
@@ -164,34 +164,34 @@ export default {
     disabled: Boolean,
     columnLabel: {
       type: Array,
-      require: false
-    }
+      require: false,
+    },
   },
   computed: {
     labelStyles() {
       return {
-        display: "block",
+        display: 'block',
         width:
           (this.$parent &&
             (this.$parent.labelWidth || this.$parent.$parent.labelWidth)) ||
-          "auto",
+          'auto',
         textAlign:
           this.$parent &&
           (this.$parent.labelAlign || this.$parent.$parent.labelAlign),
         marginRight:
           this.$parent &&
           (this.$parent.labelMarginRight ||
-            this.$parent.$parent.labelMarginRight)
+            this.$parent.$parent.labelMarginRight),
       };
     },
     labelClass() {
       return {
-        "vux-cell-justify":
+        'vux-cell-justify':
           this.$parent &&
-          (this.$parent.labelAlign === "justify" ||
-            this.$parent.$parent.labelAlign === "justify")
+          (this.$parent.labelAlign === 'justify' ||
+            this.$parent.$parent.labelAlign === 'justify'),
       };
-    }
+    },
   },
   methods: {
     value2name,
@@ -219,20 +219,20 @@ export default {
     onPopupShow() {
       // reset close type to false
       this.closeType = false;
-      this.$emit("on-show");
+      this.$emit('on-show');
     },
     onPopupHide(val) {
       if (this.value.length > 0) {
         this.tempValue = getObject(this.currentValue);
       }
-      this.$emit("on-hide", this.closeType);
+      this.$emit('on-hide', this.closeType);
     },
     onPickerChange(val) {
       if (JSON.stringify(this.currentValue) !== JSON.stringify(val)) {
         // if has value, replace it
         if (this.value.length) {
           const nowData = JSON.stringify(this.data);
-          if (nowData !== this.currentData && this.currentData !== "[]") {
+          if (nowData !== this.currentData && this.currentData !== '[]') {
             this.tempValue = getObject(val);
           }
           this.currentData = nowData;
@@ -243,11 +243,11 @@ export default {
       }
       const _val = getObject(val);
       this.$emit(
-        "on-shadow-change",
+        'on-shadow-change',
         _val,
-        value2name(_val, this.data).split(" ")
+        value2name(_val, this.data).split(' ')
       );
-    }
+    },
   },
   watch: {
     value(val) {
@@ -257,15 +257,15 @@ export default {
       }
     },
     currentValue(val) {
-      this.$emit("input", getObject(val));
-      this.$emit("on-change", getObject(val));
+      this.$emit('input', getObject(val));
+      this.$emit('on-change', getObject(val));
     },
     show(val) {
       this.showValue = val;
     },
     showValue(val) {
-      this.$emit("update:show", val);
-    }
+      this.$emit('update:show', val);
+    },
   },
   data() {
     return {
@@ -274,15 +274,15 @@ export default {
       closeType: false,
       currentData: JSON.stringify(this.data), // used for detecting if it is after data change
       showValue: false,
-      currentValue: this.value
+      currentValue: this.value,
     };
-  }
+  },
 };
 </script>
 
 <style lang="less">
-@import "../../styles/variable.less";
-@import "../../styles/1px.less";
+@import '../../styles/variable.less';
+@import '../../styles/1px.less';
 
 .vux-cell-primary {
   flex: 1;
@@ -291,7 +291,7 @@ export default {
   position: relative;
 }
 .vux-cell-box:not(:first-child):before {
-  content: " ";
+  content: ' ';
   position: absolute;
   top: 0;
   width: 100%;
@@ -329,7 +329,7 @@ export default {
   position: relative;
 }
 .vux-popup-picker-select-box.weui-cell__bd:after {
-  content: " ";
+  content: ' ';
   display: inline-block;
   transform: rotate(45deg);
   height: 6px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="vux-picker">
+  <div class="vux-picker" data-test>
     <flexbox :gutter="0">
       <flexbox-item
         :span="columnWidth && columnWidth[index]"
@@ -19,17 +19,17 @@
 </template>
 
 <script>
-import Scroller from "./scroller";
-import { Flexbox, FlexboxItem } from "../flexbox";
-import Manager from "./chain";
-import value2name from "../../filters/value2name";
-import isArray from "../../libs/is-array";
+import Scroller from './scroller';
+import { Flexbox, FlexboxItem } from '../flexbox';
+import Manager from './chain';
+import value2name from '../../filters/value2name';
+import isArray from '../../libs/is-array';
 
 export default {
-  name: "picker",
+  name: 'picker',
   components: {
     Flexbox,
-    FlexboxItem
+    FlexboxItem,
   },
   created() {
     if (this.columns !== 0) {
@@ -49,27 +49,32 @@ export default {
     this.$nextTick(() => {
       this.render(this.currentData, this.currentValue);
     });
+
+    this.$el.addEventListener('selectValue', ev => {
+      const { detail } = ev;
+      this.$emit('input', detail.value);
+    });
   },
   props: {
     data: Array,
     columns: {
       type: Number,
-      default: 0
+      default: 0,
     },
     fixedColumns: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: Array,
     itemClass: {
       type: String,
-      default: "scroller-item"
+      default: 'scroller-item',
     },
     columnWidth: Array,
     columnLabel: {
       type: Array,
-      require: false
-    }
+      require: false,
+    },
   },
   methods: {
     getNameValues() {
@@ -89,15 +94,15 @@ export default {
       if (value.length < count) {
         for (let i = 0; i < count; i++) {
           if (
-            process.env.NODE_ENV === "development" &&
-            typeof data[i][0] === "undefined" &&
+            process.env.NODE_ENV === 'development' &&
+            typeof data[i][0] === 'undefined' &&
             isArray(this.data) &&
             this.data[0] &&
-            typeof this.data[0].value !== "undefined" &&
+            typeof this.data[0].value !== 'undefined' &&
             !this.columns
           ) {
             console.error(
-              "[VUX error] 渲染出错，如果为联动模式，需要指定 columns(列数)"
+              '[VUX error] 渲染出错，如果为联动模式，需要指定 columns(列数)'
             );
           }
           this.$set(_this.currentValue, i, data[i][0].value || data[i][0]);
@@ -124,13 +129,13 @@ export default {
               (this.columns && _this.getValue().length === _this.store.count)
             ) {
               _this.$nextTick(() => {
-                _this.$emit("on-change", _this.getValue());
+                _this.$emit('on-change', _this.getValue());
               });
             }
             if (_this.columns !== 0) {
               _this.renderChain(i + 1);
             }
-          }
+          },
         });
         if (_this.currentValue) {
           _this.scroller[i].select(value[i]);
@@ -158,10 +163,10 @@ export default {
         onSelect(value) {
           _this.$set(_this.currentValue, i, value);
           _this.$nextTick(() => {
-            _this.$emit("on-change", _this.getValue());
+            _this.$emit('on-change', _this.getValue());
           });
           _this.renderChain(i + 1);
-        }
+        },
       });
       // list is Array(empty) as maybe
       if (list.length) {
@@ -184,17 +189,17 @@ export default {
     },
     emitValueChange(val) {
       if (!this.columns || (this.columns && val.length === this.store.count)) {
-        this.$emit("on-change", val);
+        this.$emit('on-change', val);
       }
-    }
+    },
   },
   data() {
     return {
       scroller: [],
       count: 0,
-      uuid: "",
+      uuid: '',
       currentData: this.data,
-      currentValue: this.value
+      currentValue: this.value,
     };
   },
   watch: {
@@ -204,7 +209,7 @@ export default {
       }
     },
     currentValue(val, oldVal) {
-      this.$emit("input", val);
+      this.$emit('input', val);
       // render all the scroller for chain datas
       if (this.columns !== 0) {
         if (val.length > 0) {
@@ -233,7 +238,7 @@ export default {
       }
     },
     currentData(newData) {
-      if (Object.prototype.toString.call(newData[0]) === "[object Array]") {
+      if (Object.prototype.toString.call(newData[0]) === '[object Array]') {
         this.$nextTick(() => {
           this.render(newData, this.currentValue);
           // emit on-change after rerender
@@ -267,19 +272,19 @@ export default {
           this.currentData = this.store.getColumns(this.currentValue);
         }
       }
-    }
+    },
   },
   beforeDestroy() {
     for (let i = 0; i < this.count; i++) {
       this.scroller[i] && this.scroller[i].destroy();
       this.scroller[i] = null;
     }
-  }
+  },
 };
 </script>
 
 <style>
-@import "./scroller.css";
+@import './scroller.css';
 </style>
 <style lang="less" scoped>
 .vux-picker-item-label {
