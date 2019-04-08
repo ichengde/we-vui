@@ -2,6 +2,12 @@
 
 ## version
 
+### 0.0.13
+
+datetime picker && popup picker 共同使用scroll
+修复.scroller-indicator样式错误
+
+
 ### 0.0.12
 
 datetime picker 样式变更

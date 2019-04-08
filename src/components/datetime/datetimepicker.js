@@ -25,7 +25,6 @@ const TEMPLATE = `<div class="dp-container">
     <div class="dp-item dp-right vux-datetime-confirm" data-role="confirm">done</div>
   </div>
 
-  <div class="c-dp-item-indicator"></div>
 
   <div class="dp-content">
     <div class="dp-item" data-role="year"></div>
@@ -36,6 +35,7 @@ const TEMPLATE = `<div class="dp-container">
     <div class="dp-item" data-role="minute"></div>
   </div>
 </div>`;
+  // <div class="c-dp-item-indicator"></div>
 
 const SHOW_ANIMATION_TIME = 200;
 const SHOW_CONTAINER_TIME = 300;
