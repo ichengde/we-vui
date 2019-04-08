@@ -24,6 +24,9 @@ const TEMPLATE = `<div class="dp-container">
     <div class="dp-item vux-datetime-clear" data-role="clear"></div>
     <div class="dp-item dp-right vux-datetime-confirm" data-role="confirm">done</div>
   </div>
+
+  <div class="c-dp-item-indicator"></div>
+
   <div class="dp-content">
     <div class="dp-item" data-role="year"></div>
     <div class="dp-item" data-role="month"></div>
