@@ -29,15 +29,15 @@
 </template>
 
 <script>
-import XDialog from "../x-dialog";
+import XDialog from '../x-dialog';
 
 export default {
-  name: "alert",
+  name: 'alert',
   components: {
-    XDialog
+    XDialog,
   },
   created() {
-    if (typeof this.value !== "undefined") {
+    if (typeof this.value !== 'undefined') {
       this.showValue = this.value;
     }
   },
@@ -45,44 +45,44 @@ export default {
     value: Boolean,
     title: String,
     content: String,
-    buttonText: { type: String, default: "确定" },
+    buttonText: { type: String, default: '确定' },
     hideOnBlur: {
       type: Boolean,
-      default: false
+      default: false,
     },
     maskTransition: {
       type: String,
-      default: "vux-mask"
+      default: 'vux-mask',
     },
     dialogTransition: {
       type: String,
-      default: "vux-dialog"
+      default: 'vux-dialog',
     },
-    maskZIndex: [Number, String]
+    maskZIndex: [Number, String],
   },
   data() {
     return {
-      showValue: false
+      showValue: false,
     };
   },
   methods: {
     _onHide() {
       this.showValue = false;
-    }
+    },
   },
   watch: {
     value(val) {
       this.showValue = val;
     },
     showValue(val) {
-      this.$emit("input", val);
-    }
-  }
+      this.$emit('input', val);
+    },
+  },
 };
 </script>
 
 <style lang="less">
-@import "../../styles/transition.less";
-@import "../../styles/weui/widget/weui_tips/weui_mask";
-@import "../../styles/weui/widget/weui_tips/weui_dialog";
+@import '../../styles/transition.less';
+@import '../../styles/weui/widget/weui_tips/weui_mask';
+@import '../../styles/weui/widget/weui_tips/weui_dialog';
 </style>
