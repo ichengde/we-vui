@@ -2,11 +2,14 @@
 
 ## version
 
+### 0.0.14
+
+alert 样式变更
+
 ### 0.0.13
 
-datetime picker && popup picker 共同使用scroll
-修复.scroller-indicator样式错误
-
+datetime picker && popup picker 共同使用 scroll
+修复 .scroller-indicator 样式错误
 
 ### 0.0.12
 
