@@ -9,13 +9,13 @@
       :mask-z-index="maskZIndex"
       @on-hide="$emit('on-hide')"
     >
-      <div
+      <!-- <div
         class="weui-dialog__hd"
         v-if="!!title"
         :class="{'with-no-content': !showContent}"
       >
         <strong class="weui-dialog__title">{{ title }}</strong>
-      </div>
+      </div> -->
       <template v-if="showContent">
         <div
           class="weui-dialog__bd"

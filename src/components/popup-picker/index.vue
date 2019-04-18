@@ -313,6 +313,7 @@ export default {
   }
 }
 .vux-popup-picker-value {
+  display: inherit;
   /* display: inline-block; */
 }
 .vux-popup-picker-header-menu {

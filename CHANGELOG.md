@@ -2,6 +2,10 @@
 
 ## version
 
+### 0.0.15
+
+修复 confirm 的样式问题 并去除 title dom
+
 ### 0.0.14
 
 alert 样式变更
