@@ -2,6 +2,14 @@
 
 ## version
 
+### 0.0.17
+
+修复dateView和picker 样式冲突问题
+
+### 0.0.16
+
+加入了dateView
+
 ### 0.0.15
 
 修复 confirm 的样式问题 并去除 title dom

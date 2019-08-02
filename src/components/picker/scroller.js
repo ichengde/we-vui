@@ -10,8 +10,6 @@ const isBrowser = typeof window === 'object';
 
 const TEMPLATE = `
 <div class="scroller-component" data-role="component">
-  <div class="scroller-mask" data-role="mask"></div>
-
   <div class="scroller-indicator" data-role="indicator"></div>
     
   <div class="scroller-content" data-role="content"></div>
