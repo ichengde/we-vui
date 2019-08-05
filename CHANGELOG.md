@@ -2,13 +2,19 @@
 
 ## version
 
+
+### 0.0.19
+
+修复 dateView 和 picker 样式冲突问题
+
+
 ### 0.0.17
 
-修复dateView和picker 样式冲突问题
+修复 dateView 和 picker 样式冲突问题
 
 ### 0.0.16
 
-加入了dateView
+新增 dateView
 
 ### 0.0.15
 
