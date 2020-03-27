@@ -17,7 +17,7 @@ export default class HelloWorld extends Vue {
   }
 
   public render() {
-    return asd as div< / div > ;
+    return <div>hi</div>;
   }
 }
 </script>

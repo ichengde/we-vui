@@ -8412,6 +8412,22 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
+we-vui@0.0.19:
+  version "0.0.19"
+  resolved "https://registry.npm.taobao.org/we-vui/download/we-vui-0.0.19.tgz#4e568f0656ef176ecdfc1d347fd5c985e846f4d3"
+  integrity sha1-TlaPBlbvF27N/B00f9XJhehG9NM=
+  dependencies:
+    array-find "^1.0.0"
+    array-map "^0.0.0"
+    array-shuffle "^1.0.1"
+    validator "^10.10.0"
+    vanilla-masker "^1.2.0"
+    vue "^2.5.17"
+    vue-class-component "^6.0.0"
+    vue-property-decorator "^7.0.0"
+    vue-router "^3.0.1"
+    vuex "^3.0.1"
+
 webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "http://registry.npm.taobao.org/webidl-conversions/download/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
