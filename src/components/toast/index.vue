@@ -180,9 +180,6 @@ export default {
 .weui-toast__content {
   font-size: @toast-content-font-size;
 }
-.weui-loading_toast .weui-toast__content {
-  margin-top: 0;
-}
 .weui-toast_success .weui-icon_toast:before {
   content: "\EA08";
 }

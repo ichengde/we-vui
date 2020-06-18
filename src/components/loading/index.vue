@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import "../../styles/weui/widget/weui_tips/weui_mask";
 @import "../../styles/weui/widget/weui_tips/weui_toast";
 @import "../../styles/weui/widget/weui-loading/weui-loading.less";
