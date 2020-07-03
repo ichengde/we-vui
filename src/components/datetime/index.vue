@@ -76,7 +76,7 @@ export default {
     minYear: Number,
     maxYear: Number,
     confirmText: { type: String, default: '确定' },
-    cancelText: { type: String, default: '取消' },
+    cancelText: { type: String, default: '' },
     clearText: String,
     yearRow: {
       type: String,

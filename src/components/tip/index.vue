@@ -21,7 +21,6 @@ export default {
   font-size:14px;
   color:#888;
   text-align:center;
-  font-size: 16px;
   padding-top:0.3em;
   padding-left:10px;
   padding-right:5px;

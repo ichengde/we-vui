@@ -1,31 +1,18 @@
 <template>
   <div class="vux-toast">
-    <div
-      class="weui-mask_transparent"
-      v-show="isShowMask && show"
-    ></div>
+    <div class="weui-mask_transparent" v-show="isShowMask && show"></div>
     <transition :name="currentTransition">
-      <div
-        class="weui-toast"
-        :style="{width: width}"
-        :class="toastClass"
-        v-show="show"
-      >
+      <div class="weui-toast" :style="{width: width}" :class="toastClass" v-show="show">
         <i
           class="weui-icon-success-no-circle weui-icon_toast"
-          v-show="type !== 'text'"
+          v-show="type !== 'text'&&type !=='success' "
         ></i>
-        <p
-          class="weui-toast__content"
-          v-if="text"
-          :style="style"
-          v-html="text"
-        ></p>
-        <p
-          class="weui-toast__content"
-          v-else
-          :style="style"
-        >
+        <div class="default" v-show="type !== 'text'&& type ==='success' ">
+          <img class="icon" src="../../assets/success.png" alt />
+        </div>
+
+        <p class="weui-toast__content" v-if="text" :style="style" v-html="text"></p>
+        <p class="weui-toast__content" v-else :style="style">
           <slot></slot>
         </p>
       </div>
@@ -52,7 +39,7 @@ export default {
     transition: String,
     width: {
       type: String,
-      default: "7.6em"
+      default: "18em"
     },
     isShowMask: {
       type: Boolean,
@@ -125,10 +112,10 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../styles/transition.less";
-@import "../../styles/weui/widget/weui_tips/weui_mask";
-@import "../../styles/weui/icon/weui_icon_font";
-@import "../../styles/weui/widget/weui_tips/weui_toast";
+@import '../../styles/transition.less';
+@import '../../styles/weui/widget/weui_tips/weui_mask';
+@import '../../styles/weui/icon/weui_icon_font';
+@import '../../styles/weui/widget/weui_tips/weui_toast';
 
 .weui-toast.vux-toast-top {
   top: @toast-position-top-offset;
@@ -180,14 +167,29 @@ export default {
 .weui-toast__content {
   font-size: @toast-content-font-size;
 }
+.weui-loading_toast .weui-toast__content {
+  margin-top: 0;
+}
 .weui-toast_success .weui-icon_toast:before {
-  content: "\EA08";
+  // content: "\EA08";
 }
 .weui-toast_cancel .weui-icon_toast:before {
-  content: "\EA0D";
+  content: '\EA0D';
 }
 .weui-toast_forbidden .weui-icon_toast.weui-icon-success-no-circle:before {
-  content: "\EA0B";
+  content: '\EA0B';
   color: #f76260;
+}
+.default {
+  width: 100%;
+  height: 2.4em;
+  margin: 16px 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon {
+  width: 2.4em;
+  height: 2.4em;
 }
 </style>
